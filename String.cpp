@@ -132,3 +132,22 @@ size_t String::find(const char * text)
 	return currPos;
 }
 
+void String::print() const
+{
+	for (size_t i = 0; i < currentSize; i++)
+	{
+		std::cout << data[i];
+	}
+}
+
+char * String::toChar() const
+{
+	char* text= new char[currentSize+1];
+	for (size_t i = 0; i < currentSize; i++)
+	{
+		text[i] = data[i];
+	}
+	text[currentSize + 1] = 0;
+	return text;
+}
+
