@@ -32,7 +32,7 @@ String::String(const String &other) {
 }
 
 String::String(const char *other) {
-    this->maxSize = strlen(other);
+    this->maxSize = strlen(other) + 1;
     getData(other, maxSize);
 	terminate();
 }
@@ -74,7 +74,7 @@ String String::operator=(const String &other) {
 
 String String::operator=(const char *other) {
     if (this->data != other) {
-        maxSize = strlen(other);
+        maxSize = strlen(other) + 1;
         getData(other, maxSize);
 		terminate();
     }
@@ -110,11 +110,11 @@ size_t String::find(const char * text)
 	bool found = 0;
 	for (size_t i = 0; i < currentSize; i++)
 	{
-		if (data[i] = text[0])
+        if (data[i] == text[0])
 		{
 			for (size_t j = i+1; j < currentSize; j++)
 			{
-				if (data[j] = text[j - i])
+                if (data[j] == text[j - i])
 					found = 1;
 				else
 				{
