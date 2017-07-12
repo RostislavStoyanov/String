@@ -5,6 +5,7 @@
 #ifndef STRING_STRING_H
 #define STRING_STRING_H
 
+
 #include<iostream>
 #include<cstring>
 #include<fstream>
@@ -17,7 +18,6 @@ private:
 
     void getData(const char *, size_t maxSize); //sets currentSize to the other char* size and
 												// copies the content of the other char* to data
-	void terminate(); //terminates the char array
 public:
     String(); //default constructor
     ~String(); //destructor

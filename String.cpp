@@ -4,6 +4,7 @@
 
 #include "String.h"
 
+
 String::String() {
     currentSize = 0;
     maxSize = 16;
@@ -41,7 +42,7 @@ void String::getData(const char *dataSource, size_t maxSize) {
         char *newData = new char[maxSize];
         delete[] data;
 		data = newData;
-        strcpy_s(data,currentSize+1, dataSource);
+        strcpy(data, dataSource);
 		//terminate();
     }
     catch (std::bad_alloc &) {
@@ -50,17 +51,6 @@ void String::getData(const char *dataSource, size_t maxSize) {
     }
 }
 
-void String::terminate()
-{
-	if (currentSize + 1 != maxSize)
-	{
-		data[currentSize + 1] = 0;
-	}
-	else {
-		addChar(0);
-		currentSize--;
-	}
-}
 
 String String::operator=(const String &other) {
     if (this != &other) {
@@ -84,7 +74,6 @@ void String::addChar(const char newChar) {
 		getData(this->data, maxSize);
     }
 	data[currentSize++] = newChar;
-	terminate();
 }
 
 void String::getLine(std::ifstream & is, const char delim='\n')
