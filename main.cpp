@@ -15,7 +15,7 @@ int main() {
     else std::cerr<<"Error opening the file"<<std::endl;
      */
 	delete[] fileName;
-    String str = "helloooo!";
+    String str = "hellooo!";
     str.print();
     return 0;
 }

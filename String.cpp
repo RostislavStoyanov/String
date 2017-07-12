@@ -28,13 +28,11 @@ size_t String::length() const {
 String::String(const String &other) {
     this->maxSize = other.maxSize;
     getData(other.data, maxSize);
-	terminate();
 }
 
 String::String(const char *other) {
-    this->maxSize = strlen(other) + 1;
+    this->maxSize = strlen(other) *2;
     getData(other, maxSize);
-	terminate();
 }
 
 void String::getData(const char *dataSource, size_t maxSize) {
@@ -42,8 +40,9 @@ void String::getData(const char *dataSource, size_t maxSize) {
     try {
         char *newData = new char[maxSize];
         delete[] data;
-        data = newData;
-        strcpy(data, dataSource);
+		data = newData;
+        strcpy_s(data,currentSize+1, dataSource);
+		//terminate();
     }
     catch (std::bad_alloc &) {
         std::cerr << "Not enough memory" << std::endl;
@@ -67,16 +66,14 @@ String String::operator=(const String &other) {
     if (this != &other) {
         maxSize = other.maxSize;
         getData(other.data, maxSize);
-		terminate();
     }
     return *this;
 }
 
 String String::operator=(const char *other) {
     if (this->data != other) {
-        maxSize = strlen(other) + 1;
+        maxSize = strlen(other) *2;
         getData(other, maxSize);
-		terminate();
     }
     return *this;
 }
@@ -138,6 +135,7 @@ void String::print() const
 	{
 		std::cout << data[i];
 	}
+	std::cout << std::endl;
 }
 
 char * String::toChar() const
