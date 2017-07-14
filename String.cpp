@@ -26,13 +26,15 @@ size_t String::length() const {
     return currentSize;
 }
 
-String::String(const String &other) {
-    this->maxSize = other.maxSize;
+String::String(const String &other) :currentSize(0),
+									maxSize(other.maxSize),
+									data(nullptr){
     getData(other.data, maxSize);
 }
 
-String::String(const char *other) {
-    this->maxSize = strlen(other) *2;
+String::String(const char *other) : currentSize(0),
+									maxSize(strlen(other) * 2),
+									data(nullptr) {
     getData(other, maxSize);
 }
 
@@ -40,9 +42,9 @@ void String::getData(const char *dataSource, size_t maxSize) {
     currentSize = strlen(dataSource);
     try {
         char *newData = new char[maxSize];
-        delete[] data;
-		data = newData;
-        strcpy(data, dataSource);
+			strcpy(newData, dataSource);
+			delete[] data;
+			data = newData;
     }
     catch (std::bad_alloc &) {
         std::cerr << "Not enough memory" << std::endl;
@@ -53,7 +55,7 @@ void String::getData(const char *dataSource, size_t maxSize) {
 
 String String::operator=(const String &other) {
     if (this != &other) {
-        maxSize = other.maxSize;
+        maxSize = other.maxSize+1;
         getData(other.data, maxSize);
     }
     return *this;
@@ -75,7 +77,7 @@ void String::addChar(const char newChar) {
 	data[currentSize++] = newChar;
 }
 
-void String::getLine(std::ifstream & is, const char delim='\n')
+void String::getLine(std::istream & is, const char delim)
 {
 	char temp;
 	while (!is.eof())
@@ -137,3 +139,27 @@ char * String::toChar() const
 	return text;
 }
 
+std::istream & operator>>(std::istream &is, String &str)
+{
+	delete[] str.data;
+	str.maxSize = 16;
+	try{
+		str.data = new char[str.maxSize];
+		str.data[0] = '\0';
+	}
+	catch(std::bad_alloc&)
+	{
+		str.maxSize = 0;
+		throw;
+	}
+	str.currentSize = 0;
+	char temp;
+	while (is)
+	{
+		is.get(temp);
+		if (temp == '\n' || temp == ' ')
+			break;
+		str.addChar(temp);
+	}
+	return is;
+}

@@ -31,13 +31,15 @@ public:
 
     void addChar(const char); //adds a char to the data array
 
-	void getLine(std::ifstream&,const char); // reads line till deliminator and stores it in this string object(all data previously stored is lost)
+	void getLine(std::istream&, const char delim = '\n'); // reads line till deliminator and stores it in this string object(all data previously stored is lost)
 
 	size_t find(const char*); //searches for text in the string and if found returns the starting position , if not found returns -1;
 
 	void print() const; //prints the string object to console
 
 	char* toChar() const; //returns a new allocated char pointer with the text inside (must be deleted afterwards)
+
+	friend std::istream& operator>>(std::istream&,String&); //reads till space or enter(as normal >>)
 };
 
 
