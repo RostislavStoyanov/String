@@ -10,12 +10,12 @@ String::String() {
     maxSize = 16;
     try {
         data = new char[maxSize];
+		data[0] = '\0';
     }
     catch (std::bad_alloc &) {
         std::cerr << "Not enough memory" << std::endl;
         throw;
     }
-	data[0] = '\0';
 }
 
 String::~String() {
@@ -40,7 +40,7 @@ void String::getData(const char *dataSource, size_t maxSize) {
     currentSize = strlen(dataSource);
     try {
         char *newData = new char[maxSize];
-        DELETE_TABLE (data);
+        delete[] data;
 		data = newData;
         strcpy(data, dataSource);
     }

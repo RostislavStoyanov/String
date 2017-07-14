@@ -5,21 +5,6 @@
 #ifndef STRING_STRING_H
 #define STRING_STRING_H
 
-
-#define DELETE( ptr ) \
-if (ptr != NULL)      \
-{                     \
-    delete ptr;       \
-    ptr = NULL;       \
-}
-
-#define DELETE_TABLE( ptr ) \
-if (ptr != NULL)            \
-{                           \
-    delete[] ptr;           \
-    ptr = NULL;             \
-}
-
 #include<iostream>
 #include<cstring>
 #include<fstream>
