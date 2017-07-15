@@ -21,9 +21,9 @@ int main() {
 	str2.print();
     str.print();
 	*/
-	String str;
-	//std::cin >> str;
-	str.getLine(std::cin);
-	str.print();
+	String str,str2;
+	std::cin >> str >> str2;
+	//str.getLine(std::cin);
+	std::cout << str << " " << str2 << std::endl;
     return 0;
 }

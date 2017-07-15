@@ -119,14 +119,6 @@ size_t String::find(const char * text)
 	return currPos;
 }
 
-void String::print() const
-{
-	for (size_t i = 0; i < currentSize; i++)
-	{
-		std::cout << data[i];
-	}
-	std::cout << std::endl;
-}
 
 char * String::toChar() const
 {
@@ -141,25 +133,24 @@ char * String::toChar() const
 
 std::istream & operator>>(std::istream &is, String &str)
 {
-	delete[] str.data;
-	str.maxSize = 16;
-	try{
-		str.data = new char[str.maxSize];
-		str.data[0] = '\0';
-	}
-	catch(std::bad_alloc&)
-	{
-		str.maxSize = 0;
-		throw;
-	}
 	str.currentSize = 0;
 	char temp;
 	while (is)
 	{
 		is.get(temp);
-		if (temp == '\n' || temp == ' ')
+		if (temp == '\n' || temp == ' '||temp=='\t')
 			break;
 		str.addChar(temp);
 	}
+	str.data[str.currentSize + 1] = '\0';
 	return is;
+}
+
+std::ostream & operator<<(std::ostream & os, const String & str)
+{
+	for (size_t i = 0; i < str.currentSize; i++)
+	{
+		os << str.data[i];
+	}
+	return os;
 }
