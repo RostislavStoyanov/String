@@ -1,13 +1,9 @@
-//
-// Created by rosti on 10.07.17.
-//
-
 #include "String.h"
 
 
-String::String() {
-    currentSize = 0;
-    maxSize = 16;
+String::String() :currentSize(0),
+					maxSize(16),
+					data(nullptr){
     try {
         data = new char[maxSize];
 		data[0] = '\0';
@@ -24,6 +20,26 @@ String::~String() {
 
 size_t String::length() const {
     return currentSize;
+}
+
+size_t String::max_size() const
+{
+	return maxSize;
+}
+
+String::String(char ch) :currentSize(0),
+						maxSize(16),
+						data(nullptr)
+{
+	try {
+		data = new char[maxSize];
+		data[0] = ch;
+		data[1] = '\0';
+	}
+	catch (std::bad_alloc &) {
+		std::cerr << "Not enough memory" << std::endl;
+		throw;
+	}
 }
 
 String::String(const String &other) :currentSize(0),
@@ -52,7 +68,6 @@ void String::getData(const char *dataSource, size_t maxSize) {
     }
 }
 
-
 String String::operator=(const String &other) {
     if (this != &other) {
         maxSize = other.maxSize+1;
@@ -75,6 +90,7 @@ void String::addChar(const char newChar) {
 		getData(this->data, maxSize);
     }
 	data[currentSize++] = newChar;
+	data[currentSize] = '\0';
 }
 
 void String::getLine(std::istream & is, const char delim)
@@ -93,7 +109,7 @@ void String::getLine(std::istream & is, const char delim)
 
 size_t String::find(const char * text)
 {
-	size_t currPos=-1;
+	size_t currPos=npos;
 	bool found = 0;
 	for (size_t i = 0; i < currentSize; i++)
 	{
@@ -131,6 +147,51 @@ char * String::toChar() const
 	return text;
 }
 
+String String::substr(size_t pos, size_t len)
+{
+	String newStr;
+	for (size_t i = 0; i < len; i++)
+	{
+		newStr.addChar(data[pos + i]);
+	}
+	return newStr;
+}
+
+String & String::operator+=(const String &other)
+{
+	for (size_t i = 0; i < other.currentSize; i++)
+	{
+		addChar(other.data[i]);
+	}
+	return *this;
+}
+
+String & String::operator+=(const char *other)
+{
+	for (size_t i = 0; i < strlen(other); i++)
+	{
+		addChar(other[i]);
+	}
+	return *this;
+}
+
+String & String::operator+=(const char ch)
+{
+	addChar(ch);
+	return *this;
+}
+
+
+char & String::operator[](size_t pos)
+{
+	return data[pos];
+}
+
+const char & String::operator[](size_t pos) const
+{
+	return data[pos];
+}
+
 std::istream & operator>>(std::istream &is, String &str)
 {
 	str.currentSize = 0;
@@ -153,4 +214,81 @@ std::ostream & operator<<(std::ostream & os, const String & str)
 		os << str.data[i];
 	}
 	return os;
+}
+
+String operator+(const String &lhs, const String &rhs)
+{
+	String toRet(lhs);
+	toRet += rhs;
+	return toRet;
+}
+
+String operator+(String &&lhs, String &&rhs)
+{
+	String toRet(lhs);
+	toRet += rhs;
+	return toRet;
+}
+
+String operator+(String && lhs, const String &rhs)
+{
+	String toRet(lhs);
+	toRet += rhs;
+	return toRet;
+}
+
+String operator+(const String &lhs, String &&rhs)
+{
+	String toRet(lhs);
+	toRet += rhs;
+	return toRet;
+}
+
+String operator+(const String &lhs, const char *rhs)
+{
+	String toRet(lhs);
+	toRet += rhs;
+	return toRet;
+}
+
+String operator+(String &&lhs, const char *rhs)
+{
+	String toRet(lhs);
+	toRet += rhs;
+	return toRet;
+}
+
+String operator+(const char *lhs, const String &rhs)
+{
+	String toRet(lhs);
+	toRet += rhs;
+	return toRet;
+}
+
+String operator+(const char *lhs, String &&rhs)
+{
+	String toRet(lhs);
+	toRet += rhs;
+	return toRet;
+}
+
+String operator+(const String &lhs, char rhs)
+{
+	String toRet(lhs);
+	toRet += rhs;
+	return toRet;
+}
+
+String operator+(String &&lhs, char rhs)
+{
+	String toRet(lhs);
+	toRet += rhs;
+	return toRet;
+}
+
+String operator+(char lhs, const String &rhs)
+{
+	String toRet(lhs);
+	toRet += rhs;
+	return toRet;
 }
