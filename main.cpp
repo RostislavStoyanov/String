@@ -32,7 +32,8 @@ int main() {
 	//String str2 = "concat";
 	//str += "concat";
 	//std::cout << str << std::endl;
-	
-	std::cout << str[5] << std::endl;
+	String str2 = "text";
+	//std::cout << str[5] << std::endl;
+	std::cout << str + String(str2) << std::endl;
     return 0;
 }
